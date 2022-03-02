@@ -10,7 +10,16 @@
 
     <div class="container">
             <h1>게시판</h1>
-            <div>총 건수 : <span th:text="${#lists.size(boards)}"> </span></div>
+           <!-- <div>총 건수 : <span th:text="${#lists.size(boards)}"> </span></div>-->
+            <div>총 건수 : <span th:text="${boards.totalElements}"> </span></div>
+
+        <form class="form-inline d-flex justify-content-end" method="GET" th:action="@{/board/list}">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="searchText" class="sr-only">검색</label>
+                <input type="text" class="form-control" id="searchText" name ="searchText" th:value="${param.searchText}">
+            </div>
+            <button type="submit" class="btn btn-light mb-2">검색</button>
+        </form>
 
         <table class="table table-striped">
             <thead>
@@ -30,6 +39,26 @@
                 </tr>
             </tbody>
         </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <!--getPageNumber 첫 페이지와 동일하다면 Previous 페이지 버튼을 클릭할 수 없도록 비활성화-->
+                <li class="page-item" th:classappend="${1 == boards.pageable.getPageNumber() +1} ? 'disabled'">
+                    <a class="page-link" href="#" th:href="@{/board/list(page=${boards.pageable.getPageNumber() - 1})}">Previous</a>
+                </li>
+
+                <!--현재 페이지와 페이지와 같으면 클릭할 수 있도록 비활성화 / numbers.sequence 활용해 페이지 넘버 범위 정하기 -->
+                <li class="page-item " th:classappend="${i == boards.pageable.getPageNumber() +1} ? 'disabled'"
+                                       th:each="i  : ${#numbers.sequence(startPage,endPage)} ">
+                    <a class="page-link" href="#" th:text="${i}" th:href="@{/board/list(page=${i - 1})}">1</a></li>
+
+                <!--totalPages 전체 페이지 마지막 넘버와 동일하다면 next가 될 수 없도록 비활성화를 한다.-->
+                <li class="page-item" th:classappend="${boards.totalPages == boards.pageable.getPageNumber() +1} ? 'disabled'">
+                    <a class="page-link" href="#" th:href="@{/board/list(page=${boards.pageable.getPageNumber() + 1})}">Next</a>
+                </li>
+
+            </ul>
+        </nav>
 
         <div class="text-right">
             <a type="button" class="btn btn-primary" th:href="@{/board/form}">쓰기</a>
