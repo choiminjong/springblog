@@ -15,7 +15,6 @@ public class Users {
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String username;
     private String password;
     private Boolean enabled;
@@ -26,4 +25,7 @@ public class Users {
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private List<Roles> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users")
+    private List<Board> boards = new ArrayList<>();
 }
