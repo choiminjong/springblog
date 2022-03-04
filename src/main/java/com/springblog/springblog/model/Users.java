@@ -35,7 +35,6 @@ public class Users {
     private List<Roles> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = false)
-    //@OneToMany(mappedBy = "users")
     private List<Board> boards = new ArrayList<>();
 
 }
