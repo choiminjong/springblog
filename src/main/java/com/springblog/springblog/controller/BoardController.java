@@ -46,7 +46,8 @@ public class BoardController {
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() +4);
 
         model.addAttribute("startPage",startPage);
-        model.addAttribute("endPage",endPage);model.addAttribute("boards", boards);
+        model.addAttribute("endPage",endPage);
+        model.addAttribute("boards", boards);
 
         return "board/list";
     }

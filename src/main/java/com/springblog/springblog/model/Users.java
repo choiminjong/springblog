@@ -1,16 +1,24 @@
 package com.springblog.springblog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.awt.*;
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Users {
+
+
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +34,8 @@ public class Users {
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private List<Roles> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = false)
+    //@OneToMany(mappedBy = "users")
     private List<Board> boards = new ArrayList<>();
+
 }

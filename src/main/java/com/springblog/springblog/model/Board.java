@@ -1,7 +1,10 @@
 package com.springblog.springblog.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,6 +13,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Board {
 
     @Id
@@ -25,6 +29,7 @@ public class Board {
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private Users users;
 
 }

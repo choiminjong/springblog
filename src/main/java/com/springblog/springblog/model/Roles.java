@@ -1,5 +1,6 @@
 package com.springblog.springblog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.apache.catalina.User;
 
@@ -18,6 +19,7 @@ public class Roles {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private List<Users> users;
 
 }

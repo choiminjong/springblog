@@ -1,18 +1,22 @@
 package com.springblog.springblog.controller;
 
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springblog.springblog.dto.UserDTO;
 import com.springblog.springblog.model.Board;
 import com.springblog.springblog.model.Users;
-import com.springblog.springblog.repository.BoardRepository;
 import com.springblog.springblog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class UsersApiController {
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     private UserRepository repository;
@@ -38,14 +42,23 @@ public class UsersApiController {
     Users replaceUser(@RequestBody Users newUser, @PathVariable Long id) {
 
         return repository.findById(id)
-                .map(user -> {
-                    return repository.save(user);
+                .map(users -> {
+                    users.getBoards().clear();
+                    users.getBoards().addAll(newUser.getBoards());
+                    for(Board board : users.getBoards()) {
+                        System.out.println("board = " + board.getId());
+                        if(board.getId() != null){
+                            board.setUsers(users);
+                        }
+                    }
+                    return repository.save(users);
                 })
                 .orElseGet(() -> {
                     newUser.setId(id);
                     return repository.save(newUser);
                 });
     }
+
 
     @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable Long id) {
