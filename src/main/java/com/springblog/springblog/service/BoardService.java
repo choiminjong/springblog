@@ -17,7 +17,7 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     public Board save(String username, Board board) {
-        Users user = userRepository.findByUsername(username);
+        Users user = userRepository.findByUsernameQuery(username);
         board.setUsers(user);
         return boardRepository.save(board);
     }

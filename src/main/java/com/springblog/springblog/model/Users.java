@@ -18,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Users {
 
-
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +26,7 @@ public class Users {
     private String password;
     private Boolean enabled;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -34,7 +34,9 @@ public class Users {
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private List<Roles> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = false)
+    //@OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    //@JsonIgnore
     private List<Board> boards = new ArrayList<>();
 
 }

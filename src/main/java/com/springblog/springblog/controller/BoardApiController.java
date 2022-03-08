@@ -3,6 +3,7 @@ package com.springblog.springblog.controller;
 import com.springblog.springblog.model.Board;
 import com.springblog.springblog.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -52,8 +53,10 @@ public class BoardApiController {
         });
     }
 
+    @Secured("ROLE_USER")
     @DeleteMapping("/boards/{id}")
     void deleteBoard(@PathVariable Long id){
+        System.out.println("id = " + id);
         boardRepository.deleteById(id);
     }
 
